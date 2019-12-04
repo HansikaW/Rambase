@@ -16,54 +16,50 @@
         
         stage('Checkout') {
            steps {
-               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/Rambase/', branch:'master'\
+               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/Rambase/', branch:'IntegrationTesting'\
             }
         }
         
         stage('Restore packages'){
             steps{
-               bat "dotnet restore server\\WebAPI\\WebAPI.csproj"
-               bat "dotnet restore server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-               bat "dotnet restore server\\WebAPITestProject\\WebAPITestProject.csproj"
+               bat "dotnet restore WebApplicationTest\\WebApplicationTest\\WebApplicationTest.csproj"
+               bat "dotnet restore WebApplicationTest\\testIntegration\\testIntegration.csproj"
             }
         }
         
         stage('Clean'){
             steps{
-                bat "dotnet clean server\\WebAPI\\WebAPI.csproj"
-                bat "dotnet clean server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-                bat "dotnet clean server\\WebAPITestProject\\WebAPITestProject.csproj"
+                bat "dotnet clean WebApplicationTest\\WebApplicationTest\\WebApplicationTest.csproj"
+                bat "dotnet clean WebApplicationTest\\testIntegration\\testIntegration.csproj"
             }
         }
         
         stage('Build'){
             steps{
-                bat "dotnet build server\\WebAPI\\WebAPI.csproj --configuration Release"
-                bat "dotnet build server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj --configuration Release"
-                bat "dotnet build server\\WebAPITestProject\\WebAPITestProject.csproj --configuration Release"
+                bat "dotnet build WebApplicationTest\\WebApplicationTest\\WebApplicationTest.csproj --configuration Release"
+                bat "dotnet build WebApplicationTest\\testIntegration\\testIntegration.csproj --configuration Release"
             }    
         }
         
        stage('SonarQube analysis') {
          steps{
             bat "dotnet sonarscanner begin /k:Hatteland-POC /d:sonar.login=admin /d:sonar.password=admin"
-            bat "dotnet build server\\WebAPI\\WebAPI.csproj --configuration Release"
-            bat "dotnet build server\\WebAPITestProject\\WebAPITestProject.csproj --configuration Release"
+            bat "dotnet build WebApplicationTest\\WebApplicationTest\\WebApplicationTest.csproj --configuration Release"
+            bat "dotnet build WebApplicationTest\\testIntegration\\testIntegration.csproj --configuration Release"
             bat "dotnet sonarscanner end /d:sonar.login=admin /d:sonar.password=admin" 
           }
         }
         
-       stage('Test: Unit Test'){
+        stage('Test: Integration Test'){
             steps {
-               bat "dotnet test server\\WebAPITestProject\\WebAPITestProject.csproj "
-            }
-       }
-         
-       stage('Publish'){
+               bat "dotnet test WebApplicationTest\\testIntegration\\testIntegration.csproj"
+           }
+        }
+       
+         stage('Publish'){
             steps{
-               bat "dotnet publish server\\WebAPI\\WebAPI.csproj"
-               bat "dotnet publish server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-               bat "dotnet publish server\\WebAPITestProject\\WebAPITestProject.csproj"
+               bat "dotnet publish WebApplicationTest\\WebApplicationTest\\WebApplicationTest.csproj"
+               bat "dotnet publish WebApplicationTest\\testIntegration\\testIntegration.csproj"
            }
          }
        }
