@@ -1,0 +1,14 @@
+D:\WebApplicationTest\WebApplicationTest\bin\Debug\netcoreapp2.1\WebApplicationTest.deps.json
+D:\WebApplicationTest\WebApplicationTest\bin\Debug\netcoreapp2.1\WebApplicationTest.runtimeconfig.json
+D:\WebApplicationTest\WebApplicationTest\bin\Debug\netcoreapp2.1\WebApplicationTest.runtimeconfig.dev.json
+D:\WebApplicationTest\WebApplicationTest\bin\Debug\netcoreapp2.1\WebApplicationTest.dll
+D:\WebApplicationTest\WebApplicationTest\bin\Debug\netcoreapp2.1\WebApplicationTest.pdb
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.csproj.CoreCompileInputs.cache
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.RazorAssemblyInfo.cache
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.RazorAssemblyInfo.cs
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.AssemblyInfoInputs.cache
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.AssemblyInfo.cs
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.RazorTargetAssemblyInfo.cache
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.dll
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.pdb
+D:\WebApplicationTest\WebApplicationTest\obj\Debug\netcoreapp2.1\WebApplicationTest.csprojAssemblyReference.cache

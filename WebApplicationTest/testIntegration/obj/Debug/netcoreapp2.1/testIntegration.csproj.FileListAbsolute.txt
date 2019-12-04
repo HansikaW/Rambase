@@ -1,0 +1,17 @@
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\WebApplicationTest.dll
+D:\WebApplicationTest\testIntegration\obj\Debug\netcoreapp2.1\testIntegration.csprojAssemblyReference.cache
+D:\WebApplicationTest\testIntegration\obj\Debug\netcoreapp2.1\testIntegration.csproj.CoreCompileInputs.cache
+D:\WebApplicationTest\testIntegration\obj\Debug\netcoreapp2.1\testIntegration.AssemblyInfoInputs.cache
+D:\WebApplicationTest\testIntegration\obj\Debug\netcoreapp2.1\testIntegration.AssemblyInfo.cs
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\testIntegration.deps.json
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\testIntegration.runtimeconfig.json
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\testIntegration.runtimeconfig.dev.json
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\testIntegration.dll
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\WebApplicationTest.pdb
+D:\WebApplicationTest\testIntegration\obj\Debug\netcoreapp2.1\testIntegration.csproj.CopyComplete
+D:\WebApplicationTest\testIntegration\bin\Debug\netcoreapp2.1\testIntegration.pdb
+D:\WebApplicationTest\testIntegration\obj\Debug\netcoreapp2.1\testIntegration.dll
+D:\WebApplicationTest\testIntegration\obj\Debug\netcoreapp2.1\testIntegration.pdb
