@@ -1,0 +1,6 @@
+projectKey=Hatteland-POC
+serverUrl=http://localhost:9000
+serverVersion=7.9.1.27448
+dashboardUrl=http://localhost:9000/dashboard?id=Hatteland-POC
+ceTaskId=AW2QN1auGVP0s2UPeHnS
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AW2QN1auGVP0s2UPeHnS

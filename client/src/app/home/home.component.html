@@ -1,0 +1,25 @@
+<nav class="navbar navbar-dark bg-dark">
+   <a class="navbar-brand text-white">
+       <div *ngIf="userDetails">
+            <strong>Username : </strong>{{userDetails.UserName}}
+        </div>
+   </a>
+   <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button>
+ </nav>
+ <br>
+ <div class ="jumbtorn">
+    <h3 class="display-4 text-center">Employee Detail Register</h3>
+    <hr>
+    <div class="row">
+      <div class="col-md-5"> 
+          <app-employee-detail></app-employee-detail>
+      </div>
+      <div class="col-md-7">
+          <app-employee-detail-list></app-employee-detail-list>
+      </div>
+    </div>
+ </div>
+
+ 
+ 
+      

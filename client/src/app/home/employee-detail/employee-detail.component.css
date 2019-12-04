@@ -1,0 +1,23 @@
+
+input.ng.touched.ng-invalid{
+    border-color: #dc3545;
+}
+
+input.ng.valid{
+    border-color: #28a745;
+}
+input.form-control,input.form-control:focus{
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #636b7b;
+
+}
+input.form-control:focus{
+    box-shadow: none;
+}
+button[type=submit].btn{
+    border-radius: 10px;
+    background-color: #000;
+    color: #fff;
+    margin: 10px 5px;
+}
