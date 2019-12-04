@@ -16,7 +16,7 @@
         
         stage('Checkout') {
            steps {
-               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/hatteland-poc/', branch:'master'\
+               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/Rambase/', branch:'master'\
             }
         }
         
