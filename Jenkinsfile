@@ -6,7 +6,11 @@
     environment {
         dotnet ='C:\\Program Files (x86)\\dotnet\\'
         }
-        
+    
+    triggers {
+        githubPush()
+    } 
+    
     stages {
         stage('Git') {
             steps {
