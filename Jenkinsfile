@@ -7,6 +7,10 @@
         dotnet ='C:\\Program Files (x86)\\dotnet\\'
         }
     
+     triggers {
+        pollSCM 'H * * * *'
+    }
+    
     stages {
         stage('Git') {
             steps {
