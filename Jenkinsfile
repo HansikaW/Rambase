@@ -8,7 +8,7 @@
         }
     
      triggers {
-        pollSCM 'H * * * *'
+        githubPush()
     }
     
     stages {
