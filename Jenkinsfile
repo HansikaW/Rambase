@@ -44,7 +44,7 @@
     stage('Unit test'){
         steps{
            dir('client') {
-              bat "npm run test --code-coverage"
+              bat "npm run test"
            } 
         }
       }
