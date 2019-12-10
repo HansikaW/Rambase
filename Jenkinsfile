@@ -4,73 +4,50 @@
     tools {nodejs "node"}
     
     environment {
-        dotnet ='C:\\Program Files (x86)\\dotnet\\'
+        node = 'C:\\Program Files\\nodejs\\'
         }
-    
+        
      triggers {
         githubPush()
     }
     
-    stages {
+    stages{
         stage('Git') {
             steps {
                 step([$class: 'WsCleanup'])
             }
         }
         
-        stage('Checkout') {
-           steps {
-               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/Rambase/', branch:'master'\
+    stage('Checkout') {
+            steps {
+               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/rambase-poc/', branch:'client'\
+        }    
+    }
+    
+    stage('Restore packages') {
+        steps {
+            dir('client') {
+               bat "npm install" 
             }
         }
-        
-        stage('Restore packages'){
-            steps{
-               bat "dotnet restore server\\WebAPI\\WebAPI.csproj"
-               bat "dotnet restore server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-               bat "dotnet restore server\\WebAPITestProject\\WebAPITestProject.csproj"
+    
+     }
+     
+     stage('Build'){
+        steps{
+            dir('client') {
+               bat"npm build --prod " 
             }
-        }
-        
-        stage('Clean'){
-            steps{
-                bat "dotnet clean server\\WebAPI\\WebAPI.csproj"
-                bat "dotnet clean server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-                bat "dotnet clean server\\WebAPITestProject\\WebAPITestProject.csproj"
-            }
-        }
-        
-        stage('Build'){
-            steps{
-                bat "dotnet build server\\WebAPI\\WebAPI.csproj --configuration Release"
-                bat "dotnet build server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj --configuration Release"
-                bat "dotnet build server\\WebAPITestProject\\WebAPITestProject.csproj --configuration Release"
-            }    
-        }
-        
-       stage('SonarQube analysis') {
-         steps{
-            bat "dotnet sonarscanner begin /k:Hatteland-POC /d:sonar.login=admin /d:sonar.password=admin"
-            bat "dotnet build server\\WebAPI\\WebAPI.csproj --configuration Release"
-            bat "dotnet build server\\WebAPITestProject\\WebAPITestProject.csproj --configuration Release"
-            bat "dotnet sonarscanner end /d:sonar.login=admin /d:sonar.password=admin" 
           }
         }
         
-       stage('Test: Unit Test'){
-            steps {
-               bat "dotnet test server\\WebAPITestProject\\WebAPITestProject.csproj "
-            }
-       }
-         
-       stage('Publish'){
-            steps{
-               bat "dotnet publish server\\WebAPI\\WebAPI.csproj"
-               bat "dotnet publish server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-               bat "dotnet publish server\\WebAPITestProject\\WebAPITestProject.csproj"
-           }
-         }
-       }
+    stage('Unit test'){
+        steps{
+           dir('client') {
+              bat "npm run test --code-coverage"
+           } 
+        }
+      }
       
       post{
         always{
