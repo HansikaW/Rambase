@@ -19,8 +19,8 @@
         }
         
     stage('Checkout') {
-            steps {
-               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/rambase-poc/', branch:'client'\
+        steps {
+            git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/rambase-poc/', branch:'client'\
         }    
     }
     
@@ -30,7 +30,6 @@
                bat "npm install" 
             }
         }
-    
      }
      
      stage('Build'){
@@ -38,8 +37,8 @@
             dir('client') {
                bat"npm build --prod " 
             }
-          }
-        }
+         }
+      }
         
     stage('Unit test'){
         steps{
@@ -47,14 +46,14 @@
               bat "npm run test"
            } 
         }
-      }
     }
+   }
       
-      post{
-        always{
-         emailext body: "${currentBuild.currentResult}: Job   ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-         recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-         subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+    post{
+     always{
+       emailext body: "${currentBuild.currentResult}: Job   ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+       recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+       subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
       }
     }
   }
