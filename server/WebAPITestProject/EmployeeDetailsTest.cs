@@ -66,9 +66,6 @@ namespace WebAPITestProject
 
             mockRepo.SetupAllProperties();
 
-            //var mapperMock = new Mock<IMapper>();
-            //mapperMock.Setup(m => m.Map<EmployeeDetailEntity, EmployeeDetail>(It.IsAny<EmployeeDetailEntity>())).Returns((i) =>{new EmployeeDetail());
-
             _mapper = WebAPI.Mapper.Mapper.GetMapper();
             _handler = new EmployeeDetailHandler(mockRepo.Object, _mapper);
         }
@@ -129,7 +126,7 @@ namespace WebAPITestProject
                 EId = 1,
                 EmployeeName = "Hansika",
                 PhoneNo = "0712656744",
-                BDay = "01/12" ,
+                BDay = "01/12",
                 Nic = "12345V"
             };
 
@@ -149,7 +146,7 @@ namespace WebAPITestProject
                 EId = 1,
                 EmployeeName = "Hansika",
                 PhoneNo = "0712656744",
-                BDay = "01/12" ,
+                BDay = "01/12",
                 Nic = "12345V"
             };
 
