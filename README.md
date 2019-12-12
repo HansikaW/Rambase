@@ -1,5 +1,5 @@
 # rambase-poc
-- [branch/IntegrationTest]
+- branch/IntegrationTest
 
 ## Install
 
