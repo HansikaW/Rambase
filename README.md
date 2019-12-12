@@ -1,6 +1,6 @@
 # rambase-poc
 
-- [Branch/client]
+- Branch/client
 
 ## Install
 
