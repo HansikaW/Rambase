@@ -1,8 +1,6 @@
   pipeline{
     agent any
     
-    tools {nodejs "node"}
-    
     environment {
         dotnet ='C:\\Program Files (x86)\\dotnet\\'
         }
