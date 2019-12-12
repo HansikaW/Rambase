@@ -43,7 +43,7 @@
     stage('Unit test'){
         steps{
            dir('client') {
-              bat "npm run test"
+              bat "npm run test:ci"
            } 
         }
     }
