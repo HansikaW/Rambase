@@ -129,7 +129,7 @@ namespace WebAPITestProject
                 EId = 1,
                 EmployeeName = "Hansika",
                 PhoneNo = "0712656744",
-                BDay = "01/12",
+                BDay = "01/12" ,
                 Nic = "12345V"
             };
 
@@ -139,7 +139,7 @@ namespace WebAPITestProject
             // Assert
             Assert.Equal(EmployeeDetail.EId, employeeDetail.EId);
         }
-
+        
         [Fact]
         public async Task DeleteEmployee()
         {
@@ -149,7 +149,7 @@ namespace WebAPITestProject
                 EId = 1,
                 EmployeeName = "Hansika",
                 PhoneNo = "0712656744",
-                BDay = "01/12",
+                BDay = "01/12" ,
                 Nic = "12345V"
             };
 
