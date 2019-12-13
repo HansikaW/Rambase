@@ -35,7 +35,8 @@
      stage('Build'){
         steps{
             dir('client') {
-               bat"npm build --prod " 
+               bat "npm run-script build"
+              //bat"npm build --prod " 
             }
          }
       }
