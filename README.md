@@ -6,16 +6,16 @@
 
 ## Usage
 
-## Run tests
+## Run Tests
 
-### Unit tests
+### Unit Tsts
 
-### Integration tests
+### Integration Tests
 
-### CICD pipeline
+### CICD Pipeline
 
 #### Code Quality Management
 
-#### Integrate a performance management
+#### Integrate a Performance Management
 
 
