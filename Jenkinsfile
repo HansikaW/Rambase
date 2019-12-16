@@ -18,7 +18,7 @@
         
         stage('Checkout') {
            steps {
-               git credentialsId:'606e30dae9a0513ce1931822524c8a3eb5eaaaa7', url:'https://github.com/HansikaW/Rambase/', branch:'IntegrationTesting'\
+               git credentialsId:'1f8d84f63bd5d7b56a7930068a148c494a5adcd6', url:'https://github.com/HansikaW/Rambase/', branch:'IntegrationTesting'\
             }
         }
         
