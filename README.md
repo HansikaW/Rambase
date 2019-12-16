@@ -18,5 +18,5 @@
 
 #### Integrate a Performance Management
 
-Send Email --pGHM
+PGHM
 
