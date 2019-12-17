@@ -16,7 +16,7 @@
 
 #### Code Quality Management
 
-#### Integrate a performance management
+#### Integrate performance management
 
 
 
