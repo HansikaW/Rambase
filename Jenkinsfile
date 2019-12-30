@@ -56,7 +56,7 @@
              
          script{
            try {
-             bat 'robocopy "C:\Program Files (x86)\Jenkins\workspace\Rambase-poc_Multibranch_client\client\dist" *.* "D:\publish-multibranch\client" COPYALL /E'
+             bat 'robocopy "C:\\Program Files (x86)\\Jenkins\\workspace\\Rambase-poc_Multibranch_client\\client\\dist" *.* "D:\\publish-multibranch\\client" COPYALL /E'
           } catch (Exception e) {
            echo e.getMessage()
             echo "Error detected, but we will continue."
@@ -68,7 +68,7 @@
           
         script{
            try {
-             bat 'robocopy "C:\Program Files (x86)\Jenkins\workspace\Rambase-poc_Multibranch_client\client\src\assets\img" *.* "D:\publish-multibranch\client\FrontEnd\assets\img" COPYALL /E'
+             bat 'robocopy "C:\\Program Files (x86)\\Jenkins\\workspace\\Rambase-poc_Multibranch_client\\client\\src\\assets\\img" *.* "D:\\publish-multibranch\\client\\FrontEnd\\assets\\img" COPYALL /E'
           } 
           catch (Exception e) {
            echo e.getMessage()
@@ -85,7 +85,7 @@
           
           script{
             try{
-                bat ' "C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb:sync -source:IisApp=D:\publish-multibranch\client\FrontEnd -dest:iisapp=rambase-multibranch-client,authType=basic,username=Hansika,password=123456 -allowUntrusted -enableRule:AppOffline'
+                bat ' "C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb:sync -source:IisApp=D:\\publish-multibranch\\client\\FrontEnd -dest:iisapp=rambase-multibranch-client,authType=basic,username=Hansika,password=123456 -allowUntrusted -enableRule:AppOffline'
             }
             catch (Exception e) {
                 echo e.getMessage()
