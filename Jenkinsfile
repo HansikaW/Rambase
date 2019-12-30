@@ -48,7 +48,6 @@
            } 
         }
     }
-   }
       
       stage('Publish'){
          steps{ 
@@ -94,6 +93,7 @@
            
         }
       } 
+    }
     
     post{
      always{
