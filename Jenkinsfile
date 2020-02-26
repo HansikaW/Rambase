@@ -14,7 +14,7 @@ pipeline{
         
     stage('Checkout') {
         steps {
-            git credentialsId:'fbedd5086dfeab07dc2052717911a5ad3f1b5862', url:'https://github.com/HansikaW/rambase-poc.git', branch:'master'\
+            git credentialsId:'fbedd5086dfeab07dc2052717911a5ad3f1b5862', url:'https://github.com/HansikaW/rambase-poc/', branch:'master'\
         }    
     }
     
