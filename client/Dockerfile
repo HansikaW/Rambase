@@ -8,4 +8,4 @@ RUN npm run build
 
 ### STAGE2: Run ###
  FROM nginx:1.17.1-alpine
- COPY --from=build ./dist/FrontEnd /usr/share/nginx/html 
+ COPY --from=build /src/app/dist/FrontEnd /usr/share/nginx/html 
