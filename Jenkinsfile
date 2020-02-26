@@ -1,78 +1,99 @@
-  pipeline{
+pipeline{
     agent any
+
+    triggers {
+        githubPush()
+    }
     
-    tools {nodejs "node"}
-    
-    environment {
-        dotnet ='C:\\Program Files (x86)\\dotnet\\'
-        }
-        
     stages {
-        stage('Git') {
+        stage('Workspace Cleanup') {
             steps {
                 step([$class: 'WsCleanup'])
-            }
         }
+    }
         
-        stage('Checkout') {
-           steps {
-               git credentialsId:'b96bff92e27abd6a382c38842c103bedd1ab0f66', url:'https://github.com/HansikaW/hatteland-poc/', branch:'master'\
-            }
+    stage('Checkout') {
+        steps {
+            git credentialsId:'fbedd5086dfeab07dc2052717911a5ad3f1b5862',  url:'https://github.com/HansikaW/rambase-poc/', branch:'master'\
         }
+    }
         
-        stage('Restore packages'){
-            steps{
-               bat "dotnet restore server\\WebAPI\\WebAPI.csproj"
-               bat "dotnet restore server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-               bat "dotnet restore server\\WebAPITestProject\\WebAPITestProject.csproj"
-            }
+    stage('Restore packages'){
+        steps{
+           sh "dotnet restore server/WebAPI/WebAPI.csproj"
+           sh "dotnet restore server/WebAPIIntegrationTestProject/WebAPIIntegrationTestProject.csproj"
+           sh "dotnet restore server/WebAPITestProject/WebAPITestProject.csproj"
         }
+    }
         
-        stage('Clean'){
-            steps{
-                bat "dotnet clean server\\WebAPI\\WebAPI.csproj"
-                bat "dotnet clean server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-                bat "dotnet clean server\\WebAPITestProject\\WebAPITestProject.csproj"
-            }
+    stage('Clean'){
+        steps{
+            sh "dotnet clean server/WebAPI/WebAPI.csproj"
+            sh "dotnet clean server/WebAPIIntegrationTestProject/WebAPIIntegrationTestProject.csproj"
+            sh "dotnet clean server/WebAPITestProject/WebAPITestProject.csproj"
         }
+    }
         
-        stage('Build'){
-            steps{
-                bat "dotnet build server\\WebAPI\\WebAPI.csproj --configuration Release"
-                bat "dotnet build server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj --configuration Release"
-                bat "dotnet build server\\WebAPITestProject\\WebAPITestProject.csproj --configuration Release"
-            }    
+    stage('Build'){
+        steps{
+            sh "dotnet build server/WebAPI/WebAPI.csproj --configuration Release"
+            sh "dotnet build server/WebAPIIntegrationTestProject/WebAPIIntegrationTestProject.csproj --configuration Release"
+            sh "dotnet build server/WebAPITestProject/WebAPITestProject.csproj --configuration Release"
+        }    
+    }
+        
+   stage('SonarQube analysis') {
+       environment {
+            PATH = "$PATH:${HOME}/.dotnet/tools"
         }
-        
-       stage('SonarQube analysis') {
-         steps{
-            bat "dotnet sonarscanner begin /k:Hatteland-POC /d:sonar.login=admin /d:sonar.password=admin"
-            bat "dotnet build server\\WebAPI\\WebAPI.csproj --configuration Release"
-            bat "dotnet build server\\WebAPITestProject\\WebAPITestProject.csproj --configuration Release"
-            bat "dotnet sonarscanner end /d:sonar.login=admin /d:sonar.password=admin" 
-          }
-        }
-        
-       stage('Test: Unit Test'){
-            steps {
-               bat "dotnet test server\\WebAPITestProject\\WebAPITestProject.csproj "
-            }
+       steps{
+            sh "whoami"
+            sh "echo $PATH"
+            sh 'dotnet sonarscanner begin /k:Rambase-POC /d:sonar.host.url="http://168.62.39.23:9000" /d:sonar.login=admin /d:sonar.password=admin'
+            sh "dotnet build server/WebAPI/WebAPI.csproj --configuration Release"
+            sh "dotnet build server/WebAPITestProject/WebAPITestProject.csproj --configuration Release"
+            sh "dotnet sonarscanner end /d:sonar.login=admin /d:sonar.password=admin" 
        }
-         
-       stage('Publish'){
-            steps{
-               bat "dotnet publish server\\WebAPI\\WebAPI.csproj"
-               bat "dotnet publish server\\WebAPIIntegrationTestProject\\WebAPIIntegrationTestProject.csproj"
-               bat "dotnet publish server\\WebAPITestProject\\WebAPITestProject.csproj"
-           }
+    }
+       
+    stage('Test: Unit Test'){
+        steps {
+           sh "dotnet test server/WebAPITestProject/WebAPITestProject.csproj "
+        }
+    }
+        
+    stage('Publish'){
+      steps{
+        script{
+         dir('server/WebAPI') {
+            sh "docker login -u hansikaw -p sicasica"  
+            sh "docker build -t Rambaseserver ."
+            sh "docker tag Rambaseserver hansikaw/Rambaseserver:1.0"
+            sh "docker push hansikaw/Rambaseserver:1.0"
          }
        }
+      } 
+    }
+    
+    /*stage('Test Env: Deploy') {
+        steps{
+           sh "cp -v /var/jenkins_home/workspace/Test/docker-compose.yml /var/jenkins_home/workspace/Test@tmp"    
+           sh "docker-compose up"
+       }
+    } */
       
-      post{
-        always{
-         emailext body: "${currentBuild.currentResult}: Job   ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-         recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-         subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+    stage('Sanity check') {
+        steps {
+            input "Does the staging environment look ok?"
+        }
       }
     }
-  }
+    
+    post{
+       always{
+           emailext body: "${currentBuild.currentResult}: Job   ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+           recipientProviders: [[$class: 'RequesterRecipientProvider']], to: 'hansijw76@gmail.com',
+           subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+        }
+      }
+    }
