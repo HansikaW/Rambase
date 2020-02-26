@@ -67,9 +67,9 @@ pipeline{
         script{
          dir('server/WebAPI') {
             sh "docker login -u hansikaw -p sicasica"  
-            sh "docker build -t Rambaseserver ."
-            sh "docker tag Rambaseserver hansikaw/Rambaseserver:1.0"
-            sh "docker push hansikaw/Rambaseserver:1.0"
+            sh "docker build -t rambaseserver ."
+            sh "docker tag rambaseserver hansikaw/rambaseserver:1.0"
+            sh "docker push hansikaw/rambaseserver:1.0"
          }
        }
       } 
