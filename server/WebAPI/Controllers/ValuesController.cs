@@ -12,7 +12,7 @@ namespace WebAPI.Controllers
     public class ValuesController : ControllerBase
     {
         public ValuesController(AuthenticationContext context)
-       {
+        {
 
         }
         // GET api/values
@@ -33,21 +33,18 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            throw new NotSupportedException();
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
-            throw new NotSupportedException();
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            throw new NotSupportedException();
         }
     }
 }

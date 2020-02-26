@@ -18,15 +18,15 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ApplicationUserController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationSettings _appSettings;
 
-        public ApplicationUserController(UserManager<ApplicationUser>  userManager, SignInManager<ApplicationUser> signInManager,IOptions<ApplicationSettings> appSettings)
+        public ApplicationUserController(UserManager<ApplicationUser>  userManager, SignInManager<ApplicationUser> signInManager, IOptions<ApplicationSettings> appSettings)
          {
              _userManager = userManager;
              _signInManager = signInManager;
-            _appSettings = appSettings.Value;
+             _appSettings = appSettings.Value;
          }  
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw ex ;
+                throw ex;
             }
         }
 

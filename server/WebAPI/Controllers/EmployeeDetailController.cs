@@ -10,155 +10,153 @@ using Microsoft.Extensions.Logging;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-   
-    public class EmployeeDetailController : ControllerBase
-    {
+	[Route("api/[controller]")]
+	[ApiController]
 
-        private readonly IEmployeeDetailsHandler _handler;
-        private readonly ILogger<EmployeeDetailController> _logger;
-        
+	public class EmployeeDetailController : ControllerBase
+	{
 
-        public EmployeeDetailController(IEmployeeDetailsHandler handler, ILogger<EmployeeDetailController> logger)
-        {
-            _handler = handler;
-            _logger = logger;
-           
-        }
+		private readonly IEmployeeDetailsHandler _handler;
+		private readonly ILogger<EmployeeDetailController> _logger;
 
 
-        // GET: api/EmployeeDetail
-        [HttpGet]
-        public async Task<ActionResult> GetEmployeeDetails()
-        {
-            try
-            {
-                var posts = await _handler.GetEmployeeDetails();
-                _logger.LogInformation("Message displayed: {Message}", posts);
-                if (posts == null)
-                {
-                    return NotFound();
-                }
+		public EmployeeDetailController(IEmployeeDetailsHandler handler, ILogger<EmployeeDetailController> logger)
+		{
+			_handler = handler;
+			_logger = logger;
+		}
 
-                return Ok(posts);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
 
-        // GET: api/EmployeeDetail/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetEmployeeDetail([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		// GET: api/EmployeeDetail
+		[HttpGet]
+		public async Task<ActionResult> GetEmployeeDetails()
+		{
+			try
+			{
+				var posts = await _handler.GetEmployeeDetails();
+				_logger.LogInformation("Message displayed: {Message}", posts);
+				if (posts == null)
+				{
+					return NotFound();
+				}
+				return Ok(posts);
+			}
+			catch (Exception)
+			{
+				return BadRequest();
+			}
+		}
 
-            EmployeeDetail employeeDetail = await _handler.GetEmployeeDetail(id);
+		// GET: api/EmployeeDetail/5
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetEmployeeDetail([FromRoute] int id)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 
-            _logger.LogInformation("Message displayed: {Message}", employeeDetail);
+			EmployeeDetail employeeDetail = await _handler.GetEmployeeDetail(id);
 
-            if (employeeDetail == null)
-            {
-                return NotFound();
-            }
+			_logger.LogInformation("Message displayed: {Message}", employeeDetail);
 
-            return Ok(employeeDetail);
-        }
+			if (employeeDetail == null)
+			{
+				return NotFound();
+			}
 
-        //// PUT: api/EmployeeDetail/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployeeDetail([FromRoute] int id, [FromBody] EmployeeDetail employeeDetail)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+			return Ok(employeeDetail);
+		}
 
-            if (id != employeeDetail.EId)
-            {
-                return BadRequest();
-            }
+		//// PUT: api/EmployeeDetail/5
+		[HttpPut("{id}")]
+		public async Task<IActionResult> PutEmployeeDetail([FromRoute] int id, [FromBody] EmployeeDetail employeeDetail)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 
-            try
-            {
-                await _handler.PutEmployeeDetailAsync(id, employeeDetail);
+			if (id != employeeDetail.EId)
+			{
+				return BadRequest();
+			}
 
-               
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!(_handler.EmployeeDetailExists(id)))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			try
+			{
+				await _handler.PutEmployeeDetailAsync(id, employeeDetail);
 
-            return Ok();
-        }
 
-        //// POST: api/EmployeeDetail
-       [HttpPost]
-       public async Task<IActionResult> PostEmployeeDetail([FromBody] EmployeeDetail employeeDetail)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var eId = await _handler.PostEmployeeDetail(employeeDetail);
-                    if (eId >= 0)
-                    {
-                        return CreatedAtAction("GetEmployeeDetail", new { id = employeeDetail.EId }, employeeDetail);
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
-                }
-                catch (Exception)
-                {
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!(_handler.EmployeeDetailExists(id)))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
 
-                    return BadRequest();
-                }
+			return Ok();
+		}
 
-            }
+		//// POST: api/EmployeeDetail
+		[HttpPost]
+		public async Task<IActionResult> PostEmployeeDetail([FromBody] EmployeeDetail employeeDetail)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var eId = await _handler.PostEmployeeDetail(employeeDetail);
+					if (eId >= 0)
+					{
+						return CreatedAtAction("GetEmployeeDetail", new { id = employeeDetail.EId }, employeeDetail);
+					}
+					else
+					{
+						return NotFound();
+					}
+				}
+				catch (Exception)
+				{
 
-            return BadRequest();
-        }
-        
-         // DELETE: api/EmployeeDetail/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployeeDetail([FromRoute] int id)
-        {
-            int result = 0;
-            if (id == 0)
-            {
-                return BadRequest();
-            }
+					return BadRequest();
+				}
 
-            try
-            {
-                result = await _handler.DeleteEmployeeDetail(id);
-                if (result == 0)
-                {
-                    return NotFound();
-                }
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+			}
 
-      
-    }
+			return BadRequest();
+		}
+
+		// DELETE: api/EmployeeDetail/5
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteEmployeeDetail([FromRoute] int id)
+		{
+			int result = 0;
+			if (id == 0)
+			{
+				return BadRequest();
+			}
+
+			try
+			{
+				result = await _handler.DeleteEmployeeDetail(id);
+				if (result == 0)
+				{
+					return NotFound();
+				}
+				return Ok();
+			}
+			catch (Exception)
+			{
+				return BadRequest();
+			}
+		}
+
+
+	}
 }

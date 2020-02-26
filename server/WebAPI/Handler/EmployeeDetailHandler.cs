@@ -12,7 +12,8 @@ using AutoMapper;
 namespace WebAPI.Handler
 {
     public class EmployeeDetailHandler : IEmployeeDetailsHandler
-    { 
+    {
+
         private readonly IEmployeeDetailRepository _repository;
         private readonly IMapper _mapper;
 
@@ -48,7 +49,7 @@ namespace WebAPI.Handler
                 {
                     throw new ArgumentNullException(nameof(employeeDetail));
                 }
-               
+
                 _mapper.Map<EmployeeDetailEntity>(employeeDetail);
                 _repository.Update(employeeDetail);
                 await _repository.SaveAllAsync();
@@ -57,15 +58,14 @@ namespace WebAPI.Handler
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                throw ex;
             }
 
         }
 
         public async Task<int> PostEmployeeDetail(EmployeeDetail employeeDetail)
         {
-            
+           
             if (employeeDetail != null)
             {
              
@@ -81,7 +81,7 @@ namespace WebAPI.Handler
         public async Task<int> DeleteEmployeeDetail(int id)
         {
             int result = 0;
-            
+
             if (id != 0)
             {
                 var employeeDetail = await _repository.GetEmployeeDetailById(id);
@@ -89,10 +89,6 @@ namespace WebAPI.Handler
                 {
                     _repository.Delete(employeeDetail);
                     await _repository.SaveAllAsync();
-                }
-                else
-                {
-                    return 0;
                 }
                 return employeeDetail.EId;
             }
@@ -103,6 +99,8 @@ namespace WebAPI.Handler
             {
                 return _repository.EmployeeDetailExists(id);
             }
+
+
     }
   }
 

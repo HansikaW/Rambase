@@ -1,0 +1,19 @@
+version: '3.4'
+services:
+  webapi:
+    build: 
+     context: ./server/WebAPI
+   # dockerfile: ./server/WebAPI/Dockerfile
+    #environment:  
+      #DATABASE_URL: 
+    ports:  
+      - "51417:80"
+    
+  client:
+    build: 
+      context: ./client        
+    ports:
+      - "4200:4200"
+    depends_on:
+      - webapi
+       

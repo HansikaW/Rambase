@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+  webapi:
+    image: ${DOCKER_REGISTRY-}webapi
+    build: 
+      context: .
+      dockerfile: server/WebAPI/Dockerfile
+    environment:  
+      DATABASE_URL: /
+    ports:  
+      - "51410:80"
+         
+  client:
+    image: ${DOCKER_REGISTRY-}client
+    build: 
+      context: .
+      dockerfile: client/Dockerfile
+         command: npm run dev
+    volumes:
+       - .:/src/app/
+       - ./node_modules
+    ports:
+       - "4201:4200"
+    depends_on:
+       - webapi

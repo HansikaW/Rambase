@@ -20,30 +20,30 @@ using WebAPI.Data;
 using WebAPI.Handler;
 using WebAPI.Repositories;
 using AutoMapper;
-using Microsoft.Extensions.Logging.Console;
+//using AutoMapper;
 
 namespace WebAPI
 {
     public class Startup
     {
-        private readonly ILogger _logger;
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _logger = logger;
-        
         }
 
         public IConfiguration Configuration { get; }
 
-        private static ILogger<ConsoleLoggerProvider> AppLogger = null;
-        private static ILoggerFactory loggerFactory = null;
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			var server = Configuration["DBServer"] ?? "localhost";
+			var port = Configuration["DBPort"] ?? "1433";
+			var user = Configuration["DBUser"] ?? "SA";
+			var password = Configuration["DBPassword"] ?? "Password12!";
+			var database = Configuration["Database"] ?? "UserDB";
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
             //Inject AppSettings
-             services.Configure< ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            services.Configure< ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -51,12 +51,14 @@ namespace WebAPI
                     var resolver = options.SerializerSettings.ContractResolver;
                     if (resolver != null)
                         (resolver as DefaultContractResolver).NamingStrategy = null;
-                });    
+                });
 
-            services.AddDbContext<AuthenticationContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+			services.AddDbContext<AuthenticationContext>(options =>
+			options.UseSqlServer(Configuration.GetConnectionString("AzureDbConnection")));
+			//(Configuration.GetConnectionString("SqlConnection")));
+			//($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password};"));
 
-            services.AddDefaultIdentity<ApplicationUser>()
+			services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -76,25 +78,17 @@ namespace WebAPI
             });
 
             services.AddScoped<IEmployeeDetailRepository, EmployeeDetailRepository>();
-            services.AddScoped< IEmployeeDetailsHandler, EmployeeDetailHandler>();
+            services.AddScoped<IEmployeeDetailsHandler, EmployeeDetailHandler>();
 
             IMapper _mapper = Mapper.Mapper.GetMapper();
             services.AddSingleton(_mapper);
 
-            //loger
-            
-            services.AddLogging(builder => builder
-             .AddConsole()
-             .AddFilter(level => level >= LogLevel.Trace)
-             );
-            loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
-            AppLogger = loggerFactory.CreateLogger<ConsoleLoggerProvider>();
-
 
             //Jwt Authentication
 
-            var config = Configuration["ApplicationSettings:JWT_Secret"].ToString();
-            
+            //var config = Configuration["ApplicationSettings:JWT_Secret"].ToString();
+            var config = Configuration.GetValue<string>("ApplicationSettings:JWT_Secret");
+
             var key = Encoding.UTF8.GetBytes(config);
 
             services.AddAuthentication(x =>
@@ -117,15 +111,18 @@ namespace WebAPI
             });
 
             services.AddTransient<IEmployeeDetailsHandler, EmployeeDetailHandler>();
-            _logger.LogInformation("Added TodoRepository to services");
-        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+			using (var serviceScope = app.ApplicationServices.CreateScope())
+			{
+				var context = serviceScope.ServiceProvider.GetService<AuthenticationContext>();
+				context.Database.Migrate();
+			}
 
-            app.Use(async (ctx, next) =>
+			app.Use(async (ctx, next) =>
             {
                 await next();
                 if (ctx.Response.StatusCode == 204)
@@ -136,8 +133,8 @@ namespace WebAPI
 
             if (env.IsDevelopment())
             {
-                _logger.LogInformation("In Development environment");
                 app.UseDeveloperExceptionPage();
+
             }
 
             app.UseCors(builder =>
@@ -146,8 +143,9 @@ namespace WebAPI
             .AllowAnyMethod()
             );
 
-            app.UseMvc();
+            app.UseAuthentication();
 
+            app.UseMvc();
         }
     }
 }

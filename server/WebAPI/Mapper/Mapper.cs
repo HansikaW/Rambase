@@ -10,7 +10,6 @@ namespace WebAPI.Mapper
 {
     public class Mapper : Profile
     {
-        
         public static IMapper GetMapper()
         {
             var config = new MapperConfiguration(cfg =>
