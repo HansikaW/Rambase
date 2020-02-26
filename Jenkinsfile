@@ -51,6 +51,7 @@ pipeline{
         steps{ 
             script{
               dir('client') {
+                sh "docker login -u hansikaw -p sicasica"  
                 sh "docker build -t rambaseclient ."
                 sh "docker tag hattelandclient hansikaw/rambaseclient:1.0"
                 sh "docker push hansikaw/rambaseclient:1.0"
