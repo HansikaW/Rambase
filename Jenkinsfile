@@ -4,7 +4,11 @@ pipeline{
    environment {
             PATH = "$PATH:/root/.nvm/versions/node/v12.16.1/bin"
     }
-
+   
+   triggers {
+        githubPush()
+    }
+    
     stages{
         stage('Workspace Clean') {
             steps {
