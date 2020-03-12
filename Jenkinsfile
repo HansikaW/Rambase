@@ -49,7 +49,7 @@ pipeline{
        steps{
             sh "whoami"
             sh "echo $PATH"
-            sh 'dotnet sonarscanner begin /k:Rambase-POC /d:sonar.host.url="http://40.87.13.96:9000" /d:sonar.login=admin /d:sonar.password=admin'
+            sh 'dotnet sonarscanner begin /k:Rambase-POC /d:sonar.host.url="http://13.92.157.57:9000" /d:sonar.login=admin /d:sonar.password=admin'
             sh "dotnet build server/WebAPI/WebAPI.csproj --configuration Release"
             sh "dotnet build server/WebAPITestProject/WebAPITestProject.csproj --configuration Release"
             sh "dotnet sonarscanner end /d:sonar.login=admin /d:sonar.password=admin" 
